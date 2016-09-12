@@ -10,6 +10,7 @@ package com.example.donationgreg;
         import android.widget.RadioGroup;
         import android.widget.NumberPicker;
         import android.widget.ProgressBar;
+        import android.widget.Toast;
 
 public class Donate extends AppCompatActivity
 {
@@ -30,6 +31,9 @@ public class Donate extends AppCompatActivity
         paymentMethod = (RadioGroup)   findViewById(R.id.paymentMethod);
         progressBar   = (ProgressBar)  findViewById(R.id.progressBar);
         amountPicker  = (NumberPicker) findViewById(R.id.amountPicker);
+
+        Toast toast = Toast.makeText(this, "Target Exceeded!", Toast.LENGTH_SHORT);
+        toast.show();
 
         amountPicker.setMinValue(0);
         amountPicker.setMaxValue(1000);
