@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="app.donation.Donate" >
+    tools:context=".Donate" >
 
     <TextView
         android:id="@+id/donateTitle"
@@ -32,11 +32,12 @@
         android:id="@+id/paymentMethod"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/progressBar"
         android:layout_alignLeft="@+id/donateSubtitle"
         android:layout_below="@+id/donateSubtitle"
         android:layout_marginLeft="14dp"
         android:layout_marginTop="26dp"
-        android:layout_toLeftOf="@+id/amountPicker">
+        android:layout_toLeftOf="@+id/amountPicker" >
 
         <RadioButton
             android:id="@+id/PayPal"
@@ -52,6 +53,15 @@
             android:text="@string/Direct" />
 
     </RadioGroup>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/donateButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="67dp" />
 
     <NumberPicker
         android:id="@+id/amountPicker"
@@ -59,6 +69,28 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/donateSubtitle"
         android:layout_alignTop="@+id/paymentMethod" />
+
+    <EditText
+        android:id="@+id/amountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/donateButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:inputType="number" >
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/amountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/amountText"
+        android:layout_alignLeft="@+id/paymentMethod"
+        android:labelFor="@id/amountText"
+        android:text="@string/amount"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/donateButton"
@@ -70,14 +102,23 @@
         android:onClick="donateButtonPressed"
         android:text="@string/donateButton" />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
+    <TextView
+        android:id="@+id/amountTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_alignStart="@+id/paymentMethod"
-        android:indeterminate="false"
-        android:layout_above="@+id/donateButton"
-        android:layout_alignEnd="@+id/donateSubtitle" />
+        android:layout_alignBottom="@+id/donateButton"
+        android:layout_alignRight="@+id/amountText"
+        android:text="@string/initialAmount"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/totalLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/amountTotal"
+        android:layout_alignBottom="@+id/amountTotal"
+        android:layout_toLeftOf="@+id/amountPicker"
+        android:text="@string/amountSoFarLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

@@ -8,4 +8,7 @@
     <string name="Direct">Direct</string>
     <string name="menuReport">Report</string>
     <string name="reportTitle">Report</string>
+    <string name="amount">Amount</string>
+    <string name="initialAmount"></string>
+    <string name="amountSoFarLabel">Total so far: </string>
 </resources>
