@@ -1,30 +1,37 @@
 package com.example.donationgreg;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.util.Log;
-import android.view.View;
-
-import com.example.donationgreg.R;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.RadioGroup;
+        import android.widget.NumberPicker;
+        import android.widget.ProgressBar;
 
 public class Donate extends AppCompatActivity
 {
 
     private Button donateButton;
+    private RadioGroup paymentMethod;
+    private ProgressBar progressBar;
+    private NumberPicker amountPicker;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donate);
 
         donateButton = (Button) findViewById(R.id.donateButton);
+        paymentMethod = (RadioGroup)   findViewById(R.id.paymentMethod);
+        amountPicker  = (NumberPicker) findViewById(R.id.amountPicker);
 
-        if (donateButton != null) {
-            Log.v("Donate", "Really got the donate button");
-        }
+        amountPicker.setMinValue(0);
+        amountPicker.setMaxValue(1000);
+
     }
 
     @Override
@@ -35,6 +42,13 @@ public class Donate extends AppCompatActivity
         return true;
     }
 
+
+    public void donateButtonPressed (View view)
+    {
+        int amount = amountPicker.getValue();
+        Log.v("Donate", "Donate Pressed! with amount " + amount);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -42,17 +56,12 @@ public class Donate extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings)
         {
             return true;
         }
-        return super.onOptionsItemSelected(item);
-    }
 
-    public void donateButtonPressed (View view)
-    {
-        Log.v("Donate", "Donate Pressed!");
+        return super.onOptionsItemSelected(item);
     }
 }
