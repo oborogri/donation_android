@@ -15,6 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="app.donation.Report"
+            android:label="@string/donateTitle" >
+        </activity>
     </application>
 
 </manifest>
