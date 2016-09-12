@@ -27,6 +27,7 @@ public class Donate extends AppCompatActivity
 
         donateButton = (Button) findViewById(R.id.donateButton);
         paymentMethod = (RadioGroup)   findViewById(R.id.paymentMethod);
+        progressBar   = (ProgressBar)  findViewById(R.id.progressBar);
         amountPicker  = (NumberPicker) findViewById(R.id.amountPicker);
 
         amountPicker.setMinValue(0);
@@ -46,7 +47,10 @@ public class Donate extends AppCompatActivity
     public void donateButtonPressed (View view)
     {
         int amount = amountPicker.getValue();
-        Log.v("Donate", "Donate Pressed! with amount " + amount);
+        int radioId = paymentMethod.getCheckedRadioButtonId();
+
+        String method = radioId == R.id.PayPal ? "PayPal" : "Direct";
+        Log.v("Donate", "Donate Pressed! with amount " + amount + ", method: " + method);
     }
 
     @Override
