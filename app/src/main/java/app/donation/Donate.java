@@ -1,4 +1,4 @@
-package com.example.donationgreg;
+package app.donation;
 
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
@@ -11,6 +11,8 @@ package com.example.donationgreg;
         import android.widget.NumberPicker;
         import android.widget.ProgressBar;
         import android.widget.Toast;
+
+        import app.donation.R;
 
 public class Donate extends AppCompatActivity
 {
@@ -32,13 +34,9 @@ public class Donate extends AppCompatActivity
         progressBar   = (ProgressBar)  findViewById(R.id.progressBar);
         amountPicker  = (NumberPicker) findViewById(R.id.amountPicker);
 
-        Toast toast = Toast.makeText(this, "Target Exceeded!", Toast.LENGTH_SHORT);
-        toast.show();
-
         amountPicker.setMinValue(0);
         amountPicker.setMaxValue(1000);
         progressBar.setMax(10000);
-
     }
 
     @Override
@@ -50,15 +48,22 @@ public class Donate extends AppCompatActivity
     }
 
 
-    public void donateButtonPressed (View view)
-    {
-        int amount = amountPicker.getValue();
-        int radioId = paymentMethod.getCheckedRadioButtonId();
-        String method = radioId == R.id.PayPal ? "PayPal" : "Direct";
-        totalDonated = totalDonated + amount;
-        progressBar.setProgress(totalDonated);
+    public void donateButtonPressed (View view) {
 
-        Log.v("Donate", amountPicker.getValue() + " donated by " +  method + "\nCurrent total " + totalDonated);
+        if (totalDonated >= progressBar.getMax()) {
+            Toast toast = Toast.makeText(this, "Target Exceeded!", Toast.LENGTH_SHORT);
+            toast.show();
+
+        } else {
+            int amount = amountPicker.getValue();
+            int radioId = paymentMethod.getCheckedRadioButtonId();
+
+            String method = radioId == R.id.PayPal ? "PayPal" : "Direct";
+            totalDonated = totalDonated + amount;
+            progressBar.setProgress(totalDonated);
+
+            Log.v("Donate", amountPicker.getValue() + " donated by " + method + "\nCurrent total " + totalDonated);
+        }
     }
 
     @Override
