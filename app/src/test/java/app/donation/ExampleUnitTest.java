@@ -1,4 +1,4 @@
-package com.example.donationgreg;
+package app.donation;
 
 import org.junit.Test;
 
