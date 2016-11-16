@@ -122,4 +122,11 @@
       android:text="@string/amountSoFarLabel"
       android:textAppearance="?android:attr/textAppearanceMedium" />
 
+  <Spinner
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@+id/progressBar"
+      android:layout_centerHorizontal="true"
+      android:id="@+id/spinner"/>
+
 </RelativeLayout>

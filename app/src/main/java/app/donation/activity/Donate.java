@@ -1,28 +1,42 @@
 package app.donation.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import app.donation.R;
 import app.donation.main.DonationApp;
+import app.donation.model.Candidate;
 import app.donation.model.Donation;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
-public class Donate extends AppCompatActivity
+public class Donate extends AppCompatActivity implements Callback<Donation>
 {
   private Button donateButton;
   private RadioGroup paymentMethod;
   private ProgressBar progressBar;
   private NumberPicker amountPicker;
+  private Spinner candidateSelection;
   private int totalDonated;
   private int target;
 
@@ -44,6 +58,10 @@ public class Donate extends AppCompatActivity
     amountPicker = (NumberPicker) findViewById(R.id.amountPicker);
     amountTotal = (TextView) findViewById(R.id.amountTotal);
     amountText = (EditText) findViewById(R.id.amountText);
+
+    candidateSelection = (Spinner) findViewById(R.id.spinner);
+    CandidateAdapter adapter = new CandidateAdapter(app.candidates);
+    candidateSelection.setAdapter(adapter);
 
     amountPicker.setMinValue(0);
     amountPicker.setMaxValue(1000);
@@ -71,16 +89,37 @@ public class Donate extends AppCompatActivity
         donatedAmount = Integer.parseInt(text);
       }
     }
-    if (donatedAmount > 0) {
-      app.newDonation(new Donation(donatedAmount, method));
-      progressBar.setProgress(app.totalDonated);
-      String totalDonatedStr = "$" + app.totalDonated;
-      amountTotal.setText(totalDonatedStr);
+    if (donatedAmount > 0)
+    {
+      Donation donation = new Donation(donatedAmount, method);
+      Candidate candidate = (Candidate) candidateSelection.getSelectedItem();
+      Call<Donation> call = (Call<Donation>) app.donationService.createDonation(candidate._id, donation);
+      call.enqueue(this);
     }
 
     amountText.setText("");
     amountPicker.setValue(0);
 
+  }
+
+  @Override
+  public void onResponse(Call<Donation> call, Response<Donation> response)
+  {
+    Toast toast = Toast.makeText(this, "Donation Accepteed", Toast.LENGTH_SHORT);
+    toast.show();
+    app.newDonation(response.body());
+    progressBar.setProgress(app.totalDonated);
+    String totalDonatedStr = "$" + app.totalDonated;
+    amountTotal.setText(totalDonatedStr);
+    amountText.setText("");
+    amountPicker.setValue(0);
+  }
+
+  @Override
+  public void onFailure(Call<Donation> call, Throwable t)
+  {
+    Toast toast = Toast.makeText(this, "Error making donation", Toast.LENGTH_LONG);
+    toast.show();
   }
 
   @Override
@@ -95,4 +134,42 @@ public class Donate extends AppCompatActivity
     }
     return true;
   }
+
+private class CandidateAdapter extends BaseAdapter implements SpinnerAdapter {
+  private final List<Candidate> data;
+
+  public CandidateAdapter(List<Candidate> data) {
+    this.data = data;
+  }
+
+  @Override
+  public int getCount() {
+    return data.size();
+  }
+
+  @Override
+  public Object getItem(int position) {
+    return data.get(position);
+  }
+
+  @Override
+  public long getItemId(int i) {
+    return i;
+  }
+
+  @Override
+  public View getView(int position, View recycle, ViewGroup parent) {
+    TextView text;
+    if (recycle != null) {
+      text = (TextView) recycle;
+    } else {
+      text = (TextView) getLayoutInflater().inflate(
+              android.R.layout.simple_dropdown_item_1line, parent, false
+      );
+    }
+    text.setTextColor(Color.BLACK);
+    text.setText(data.get(position).firstName);
+    return text;
+  }
+}
 }
