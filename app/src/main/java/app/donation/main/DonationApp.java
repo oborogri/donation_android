@@ -20,7 +20,7 @@ public class DonationApp extends Application
 {
   public DonationService donationService;
   public boolean         donationServiceAvailable = false;
-  public String          service_url  = "http://peaceful-oasis-30048.herokuapp.com";   // Service Address
+  public String          service_url  = "http://peaceful-oasis-30048.herokuapp.com";   // Heroku Service Address
 
   public final int       target       = 10000;
   public int             totalDonated = 0;
